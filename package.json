@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "build:opto-sync": "npm --prefix vendor/opto-sync-clients/clients/ts ci && npm --prefix vendor/opto-sync-clients/clients/ts run build",
-    "build": "npm run build:opto-sync && tsc --noEmit",
-    "test": "node --test --import tsx test/e2e.test.ts",
+    "build:web": "esbuild web/page.ts web/sw.ts --bundle --format=esm --platform=browser --target=es2022 --outdir=.build/web",
+    "build": "npm run build:opto-sync && npm run build:web && tsc --noEmit",
+    "test": "node --test --import tsx test/*.test.ts",
     "check": "npm run build && npm test"
   },
   "dependencies": {
@@ -17,7 +18,9 @@
   },
   "devDependencies": {
     "@types/node": "^22.15.30",
+    "esbuild": "^0.25.10",
     "fake-indexeddb": "^6.2.2",
+    "playwright": "^1.56.0",
     "tsx": "^4.20.5",
     "typescript": "^5.9.2"
   }

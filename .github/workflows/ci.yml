@@ -23,7 +23,10 @@ jobs:
           node-version: '22.13.0'
           cache: npm
       - run: npm ci
+      - run: npx playwright install --with-deps chromium
       - run: npm run check
+        env:
+          OPTO_SYNC_REQUIRE_BROWSER: '1'
       - name: Verify immutable Opto-Sync source pins
         run: |
           test "$(git -C vendor/opto-sync-clients rev-parse HEAD)" = "$(node -p "require('./opto-sync-pin.json').clientsCommit")"

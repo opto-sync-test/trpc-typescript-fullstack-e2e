@@ -31,12 +31,14 @@ test('an optimistic IndexedDB write crosses tRPC and is merged by Opto-Sync', as
     });
 
     const serverDocument = await rpc.document.query();
+    assert.ok(serverDocument);
     const optimistic = await client.localView('documents', 'doc-1', serverDocument);
     assert.equal(optimistic.title, 'offline edit');
     assert.deepEqual(optimistic.metadata, { serverOnly: true, clientOnly: true });
 
     const merged = await rpc.merge.mutate({ incoming: optimistic as never });
     await client.markMutation(mutation, SYNC_STATUS.SYNCED);
+    assert.ok(merged);
     assert.equal(merged.title, 'offline edit');
     assert.deepEqual(merged.metadata, { serverOnly: true, clientOnly: true });
     assert.equal((await client.pendingMutations()).length, 0);
