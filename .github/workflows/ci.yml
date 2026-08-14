@@ -1,0 +1,30 @@
+name: TypeScript tRPC Opto-Sync E2E
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          submodules: recursive
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22.13.0'
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - name: Verify immutable Opto-Sync source pins
+        run: |
+          test "$(git -C vendor/opto-sync-clients rev-parse HEAD)" = "$(node -p "require('./opto-sync-pin.json').clientsCommit")"
+          test "$(git -C vendor/opto-sync-clients/syncer.c rev-parse HEAD)" = "$(node -p "require('./opto-sync-pin.json').coreCommit")"
