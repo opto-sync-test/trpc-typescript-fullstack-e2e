@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "clientsRepository": "opto-sync/opto-sync-clients",
-  "clientsCommit": "c6afeb415cfc9ff2f488bb52dd8b4af64c2e0d04",
+  "clientsCommit": "61d201ab40628c5bef044d1571477ae7592d5e6b",
   "coreRepository": "opto-sync/syncer.c",
   "coreCommit": "db05525d1b9b98649de1186144e552640c7a6101",
   "testBoundary": "TypeScript tRPC server plus IndexedDB optimistic client over HTTP batch transport"
